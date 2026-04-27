@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TradeAssist AI</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">TA</div>
+      <div>
+        <div class="brand-title">TradeAssist AI</div>
+        <div class="brand-subtitle">Live market intelligence</div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <label class="label">Active market</label>
+      <select id="assetSelect" class="control"></select>
+    </div>
+
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+      <button class="tab-btn" data-tab="chart">Chart</button>
+      <button class="tab-btn" data-tab="signals">Signals</button>
+      <button class="tab-btn" data-tab="news">News Lab</button>
+      <button class="tab-btn" data-tab="journal">Journal</button>
+      <button class="tab-btn" data-tab="system">System</button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="mini-stat">
+        <span>Feed</span>
+        <strong id="marketState">Connecting…</strong>
+      </div>
+      <div class="mini-stat">
+        <span>Last update</span>
+        <strong id="lastUpdate">—</strong>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="panel active" id="dashboard">
+      <div class="hero-card">
+        <div>
+          <div class="eyebrow">Live market dashboard</div>
+          <h1 id="heroName">Bitcoin</h1>
+          <div class="price-row">
+            <div class="hero-price" id="heroPrice">—</div>
+            <div class="hero-change" id="heroChange">—</div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="glass-chip" id="signalChip">Analyzing…</div>
+          <div class="glass-chip subtle" id="confidenceChip">Confidence: —</div>
+        </div>
+      </div>
+
+      <div class="grid-5" id="watchlist"></div>
+
+      <div class="summary-grid">
+        <div class="card soft">
+          <div class="card-title">Signal engine</div>
+          <div class="signal-strong" id="signalVerdict">Loading…</div>
+          <div class="signal-meta" id="signalMeta">Waiting for live data.</div>
+        </div>
+        <div class="card soft">
+          <div class="card-title">Reasoning</div>
+          <div id="signalReasons" class="reason-list"></div>
+        </div>
+        <div class="card soft">
+          <div class="card-title">Portfolio note</div>
+          <div class="note-text">
+            This version is live-data driven and saved locally on the device.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="chart">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Price chart</div>
+          <h2>Live market movement</h2>
+        </div>
+        <div class="chart-stats">
+          <div><span>High</span><strong id="chartHigh">—</strong></div>
+          <div><span>Low</span><strong id="chartLow">—</strong></div>
+          <div><span>Points</span><strong id="chartPoints">0</strong></div>
+        </div>
+      </div>
+      <div class="card chart-card">
+        <canvas id="priceChart" height="320"></canvas>
+      </div>
+    </section>
+
+    <section class="panel" id="signals">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Decision layer</div>
+          <h2>Real signal logic</h2>
+        </div>
+        <div class="pill" id="signalHealth">Live</div>
+      </div>
+
+      <div class="signal-layout">
+        <div class="card soft">
+          <div class="card-title">Technical mix</div>
+          <div class="metric-grid">
+            <div class="metric"><span>RSI</span><strong id="rsiValue">—</strong></div>
+            <div class="metric"><span>EMA 9</span><strong id="emaFastValue">—</strong></div>
+            <div class="metric"><span>EMA 21</span><strong id="emaSlowValue">—</strong></div>
+            <div class="metric"><span>Momentum</span><strong id="momentumValue">—</strong></div>
+            <div class="metric"><span>Volume</span><strong id="volumeValue">—</strong></div>
+            <div class="metric"><span>24h Change</span><strong id="dayChangeValue">—</strong></div>
+          </div>
+        </div>
+
+        <div class="card soft">
+          <div class="card-title">AI suggestion</div>
+          <div class="ai-box">
+            <div class="ai-main" id="aiAction">—</div>
+            <div class="ai-sub" id="aiExplanation">—</div>
+            <div class="confidence-bar">
+              <div class="confidence-fill" id="confidenceFill"></div>
+            </div>
+            <div class="confidence-row">
+              <span>Confidence</span>
+              <strong id="confidenceText">—</strong>
+            </div>
+          </div>
+          <button class="primary-btn" id="notifyBtn" type="button" style="margin-top:14px">Enable browser alerts</button>
+          <div class="card soft" style="margin-top:14px">
+            <div class="card-title">Trade coach</div>
+            <div id="tradeCoach" class="signal-meta">Add a trade to get live hold / sell guidance.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="news">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">News lab</div>
+          <h2>Live AI news scanner</h2>
+        </div>
+        <button class="pill button-like" id="scanBtn">Scan now</button>
+      </div>
+
+      <div class="news-lab">
+        <div class="card scan-card">
+          <div class="scan-top">
+            <div>
+              <div class="card-title">Analysis pipeline</div>
+              <div class="scan-status" id="scanStatus">Idle</div>
+            </div>
+            <div class="pulse-dot"></div>
+          </div>
+          <div class="scan-progress-wrap">
+            <div class="scan-progress" id="scanProgress"></div>
+          </div>
+          <div class="scan-stage" id="scanStage">Ready to read live headlines.</div>
+          <div class="scan-log" id="scanLog"></div>
+        </div>
+
+        <div class="card soft">
+          <div class="card-title">Market bias from headlines</div>
+          <div class="news-bias" id="newsBias">Neutral</div>
+          <div class="signal-meta" id="newsSummary">No scan yet.</div>
+        </div>
+      </div>
+
+      <div class="card soft">
+        <div class="card-title">Headline feed</div>
+        <div id="newsFeed" class="news-feed"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="journal">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Trade journal</div>
+          <h2>Save and review trades</h2>
+        </div>
+        <div class="pill">Last 100 saved</div>
+      </div>
+
+      <div class="journal-grid">
+        <div class="card soft">
+          <div class="card-title">Add trade</div>
+          <form id="tradeForm" class="trade-form">
+            <select id="tradeAsset" class="control"></select>
+            <select id="tradeSide" class="control">
+              <option value="Long">Long</option>
+              <option value="Short">Short</option>
+            </select>
+            <input id="tradeEntry" class="control" type="number" step="any" placeholder="Entry price">
+            <input id="tradeQty" class="control" type="number" step="any" placeholder="Quantity">
+            <input id="tradeTarget" class="control" type="number" step="any" placeholder="Target price">
+            <input id="tradeStop" class="control" type="number" step="any" placeholder="Stop price">
+            <textarea id="tradeNotes" class="control textarea" placeholder="Notes"></textarea>
+            <button class="primary-btn" type="submit">Save trade</button>
+          </form>
+        </div>
+        <div class="card soft">
+          <div class="card-title">Saved trades</div>
+          <div id="journalList" class="journal-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="system">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">System monitor</div>
+          <h2>Connection health</h2>
+        </div>
+      </div>
+      <div class="system-grid">
+        <div class="sys-card"><span>Market feed</span><strong id="sysMarket">Unknown</strong></div>
+        <div class="sys-card"><span>Chart engine</span><strong id="sysChart">Unknown</strong></div>
+        <div class="sys-card"><span>News scanner</span><strong id="sysNews">Unknown</strong></div>
+        <div class="sys-card"><span>Trade journal</span><strong id="sysJournal">Unknown</strong></div>
+        <div class="sys-card"><span>Signal engine</span><strong id="sysSignal">Unknown</strong></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
